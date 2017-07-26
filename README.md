@@ -54,57 +54,39 @@ var bodyParser = require('body-parser')
 
 ### bodyParser.json(options)
 
-Returns middleware that only parses `json` and only looks at requests where
-the `Content-Type` header matches the `type` option. This parser accepts any
-Unicode encoding of the body and supports automatic inflation of `gzip` and
-`deflate` encodings.
+此工厂方法返回的中间件只能解析`json`类型的请求体，并且要求请求头的`Content-Type`与`type`选项向匹配。此解析起可以接收任意的Unicode编码的请求体。
 
-A new `body` object containing the parsed data is populated on the `request`
-object after the middleware (i.e. `req.body`).
+此中间件处理结束后会在`request`对象上添加一个新的`body`对象(比如 `req.body`)，该`body`对象包含了解析后的数据。
 
 #### Options
 
-The `json` function takes an option `options` object that may contain any of
-the following keys:
+`json`函数需要一个`options`对象作为参数，该对象可以包含以下的属性： 
 
 ##### inflate
 
-When set to `true`, then deflated (compressed) bodies will be inflated; when
-`false`, deflated bodies are rejected. Defaults to `true`.
+当将此属性的值设置为`true`时，被压缩的请求体会被解压；当设置为`false`时, 不允许接收被压缩的请求体。默认值为`true`.
 
 ##### limit
 
-Controls the maximum request body size. If this is a number, then the value
-specifies the number of bytes; if it is a string, the value is passed to the
-[bytes](https://www.npmjs.com/package/bytes) library for parsing. Defaults
-to `'100kb'`.
+此属性用来控制请求体的大小。如果此属性的值为一个数值类型，则以`byte`为单位，如果是一个字符串，则该字符串会被传递给[bytes](https://www.npmjs.com/package/bytes)库用于解析. 默认值为`'100kb'`.
 
 ##### reviver
 
-The `reviver` option is passed directly to `JSON.parse` as the second
-argument. You can find more information on this argument
-[in the MDN documentation about JSON.parse](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse#Example.3A_Using_the_reviver_parameter).
+`reviver`属性会直接传递给`JSON.parse` 作为`JSON.parse`的第二个参数。你可以在[JSON.parse](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse#Example.3A_Using_the_reviver_parameter)中找到更多相关的内容。
 
 ##### strict
 
-When set to `true`, will only accept arrays and objects; when `false` will
-accept anything `JSON.parse` accepts. Defaults to `true`.
+当设置为`true`时, `JSON.parse`只会接收数组和对象；当为`false`时， `JSON.parse` 任何形式的数据. 默认为`true`.
 
 ##### type
 
-The `type` option is used to determine what media type the middleware will
-parse. This option can be a function or a string. If a string, `type` option
-is passed directly to the [type-is](https://www.npmjs.org/package/type-is#readme)
-library and this can be an extension name (like `json`), a mime type (like
-`application/json`), or a mime type with a wildcard (like `*/*` or `*/json`).
-If a function, the `type` option is called as `fn(req)` and the request is
-parsed if it returns a truthy value. Defaults to `application/json`.
+`type`属性用来决定使用何种类型的中间件解析请求体。 此属性的属性值可以是一个函数或者是一个字符串。 `type`属性会被直接传递给[type-is](https://www.npmjs.org/package/type-is#readme)
+库，此属性可以是一个扩展名（比如`json`）, 一个媒体类型(比如`application/json`), 或者是一个带有通配符的媒体类型（比如`*/*` 或 `*/json`）。
+如果是一个函数，`type`属性将以`fn(req)`的形式被调用，如果它能够返回一个正确的值，请求体就会被解析。默认值为`application/json`.
 
 ##### verify
 
-The `verify` option, if supplied, is called as `verify(req, res, buf, encoding)`,
-where `buf` is a `Buffer` of the raw request body and `encoding` is the
-encoding of the request. The parsing can be aborted by throwing an error.
+`verify`属性将以`verify(req, res, buf, encoding)`的形式被调用,其中`buf` 是一个原始请求体的`Buffer`，`encoding`是请求体的编码格式。 在解析过程中可以通过抛出一个错误来取消解析。
 
 ### bodyParser.raw(options)
 
