@@ -6,16 +6,13 @@
 [![Test Coverage][coveralls-image]][coveralls-url]
 [![Gratipay][gratipay-image]][gratipay-url]
 
-Node.js body parsing middleware.
+Node.js 请求体解析中间件.
 
-Parse incoming request bodies in a middleware before your handlers, available
-under the `req.body` property.
+在你的处理函数之前使用此中间件对即将到来的请求体进行解析，解析后的数据存放在`req.body`属性中。
 
-[Learn about the anatomy of an HTTP transaction in Node.js](https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/).
+[Node.js中的HTTP事务解析](https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/).
 
-_This does not handle multipart bodies_, due to their complex and typically
-large nature. For multipart bodies, you may be interested in the following
-modules:
+_此中间件不能处理`multipart`类型的请求体_。对于`multipart`类型的请求体，可以考虑如下的中间件：
 
   * [busboy](https://www.npmjs.org/package/busboy#readme) and
     [connect-busboy](https://www.npmjs.org/package/connect-busboy#readme)
@@ -24,19 +21,19 @@ modules:
   * [formidable](https://www.npmjs.org/package/formidable#readme)
   * [multer](https://www.npmjs.org/package/multer#readme)
 
-This module provides the following parsers:
+此中间件提供了如下的解析能力:
 
-  * [JSON body parser](#bodyparserjsonoptions)
-  * [Raw body parser](#bodyparserrawoptions)
-  * [Text body parser](#bodyparsertextoptions)
-  * [URL-encoded form body parser](#bodyparserurlencodedoptions)
+  * [JSON请求体解析](#bodyparserjsonoptions)
+  * [Raw请求体解析](#bodyparserrawoptions)
+  * [Text请求体解析](#bodyparsertextoptions)
+  * [URL-encoded表格请求体解析](#bodyparserurlencodedoptions)
 
-Other body parsers you might be interested in:
+对于其他类型的请求体解析，可以考虑以下中间件:
 
 - [body](https://www.npmjs.org/package/body#readme)
 - [co-body](https://www.npmjs.org/package/co-body#readme)
 
-## Installation
+## 安装
 
 ```sh
 $ npm install body-parser
@@ -50,13 +47,9 @@ $ npm install body-parser
 var bodyParser = require('body-parser')
 ```
 
-The `bodyParser` object exposes various factories to create middlewares. All
-middlewares will populate the `req.body` property with the parsed body when
-the `Content-Type` request header matches the `type` option, or an empty
-object (`{}`) if there was no body to parse, the `Content-Type` was not matched,
-or an error occurred.
+`bodyParser`对象暴露了各种创建中间件的工厂函数。当请求头的`Content-Type`与`type`选项相匹配时，所有的中间件都会使用解析后的请求体或空对象`{}`（没有请求体、`Content-Type`不匹配或发生错误时时）操作`req.body`属性。
 
-The various errors returned by this module are described in the
+关于此模块可能返回的各种错误，请见
 [errors section](#errors).
 
 ### bodyParser.json(options)
